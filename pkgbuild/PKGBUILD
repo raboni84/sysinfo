@@ -1,0 +1,38 @@
+pkgname=sysinfo
+pkgver=r45.d68b58b
+pkgrel=1
+pkgdesc="Writing out system information to the console"
+arch=('i686' 'x86_64')
+license=('CCPL:cc-by-nc-sa-4.0')
+depends=('dotnet-runtime')
+makedepends=('dotnet-sdk')
+provides=($pkgname)
+conflicts=($pkgname)
+
+pkgver(){
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+prepare() {
+  if [[ ! -d $pkgname ]]; then
+    ln -s ../../ $pkgname
+  fi
+}
+
+build() {
+  cd $pkgname/src
+  rm -rf bin/ obj/
+  dotnet publish -c Release -o "$srcdir/publish"
+}
+
+package() {
+  install -d "$pkgdir/opt/$pkgname"
+  
+  cp -a "$srcdir/publish/." "$pkgdir/opt/$pkgname/"
+  
+  install -d "$pkgdir/usr/bin"
+  ln -s "/opt/$pkgname/$pkgname" "$pkgdir/usr/bin/$pkgname"
+
+  install -D -m644 "../../LICENSE" \
+  "${pkgdir}/usr/share/licenses/${pkgname}/cc-by-nc-sa-4.0.txt"
+}
