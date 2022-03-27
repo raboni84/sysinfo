@@ -29,7 +29,7 @@ namespace sysinfo
             string capacitystr = File.ReadLines(capacityPath, utf8).First();
             string status = File.ReadLines(statusPath, utf8).First();
             string icon = ""; // battery
-            string iconadd = string.Empty;
+            string iconadd = new string(Util.SmallSpace, 1);
             decimal capacity;
             if (decimal.TryParse(capacitystr, out capacity))
             {
@@ -65,7 +65,7 @@ namespace sysinfo
                         alerted = true;
                     }
                 }
-                Value = $"{icon}{iconadd}{Util.SmallSpace}{Util.PercentToBarsWhenEnabled(capacity)}";
+                Value = $"{icon}{iconadd}{Util.PercentToBarsWhenEnabled(capacity)}";
                 return;
             }
 

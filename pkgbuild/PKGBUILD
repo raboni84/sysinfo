@@ -1,5 +1,5 @@
 pkgname=sysinfo
-pkgver=r45.d68b58b
+pkgver=r1.17aea2e
 pkgrel=1
 pkgdesc="Writing out system information to the console"
 arch=('i686' 'x86_64')
